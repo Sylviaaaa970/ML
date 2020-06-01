@@ -165,71 +165,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h1 id="搜索算法小结（Sorting-Algorithms）"><a href="#搜索算法小结（Sorting-Algorithms）" class="headerlink" title="搜索算法小结（Sorting Algorithms）"></a>搜索算法小结（Sorting Algorithms）</h1><h2 id="算法及时间复杂度"><a href="#算法及时间复杂度" class="headerlink" title="算法及时间复杂度"></a>算法及时间复杂度</h2><table>
-<thead>
-<tr>
-<th>算法</th>
-<th>时间复杂度</th>
-<th>空间复杂度</th>
-<th>备注</th>
-<th>一句话小结</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Insertion</td>
-<td>n^2, best case: n</td>
-<td>1</td>
-<td>适合 almost sorted 数列</td>
-<td>逐个插入下一个数并为其找到合适的位置</td>
-</tr>
-<tr>
-<td>Bubble</td>
-<td>n^2</td>
-<td>1</td>
-<td></td>
-<td>逐个找出最大/小的数</td>
-</tr>
-<tr>
-<td>Merge</td>
-<td>nlogn</td>
-<td>n, <a href="https://blog.csdn.net/weiyuefei/article/details/78948966" target="_blank" rel="noopener">可以为1</a></td>
-<td>分治</td>
-<td>二分至最小后排序，再逐层融合</td>
-</tr>
-<tr>
-<td>Heap</td>
-<td>nlogn; 建堆: n</td>
-<td>1</td>
-<td>C++中heap的用法；用数列表示heap: 下标i的节点子节点为2i和2i+1</td>
-<td>建个堆（从底到顶检查大小关系，检查方法：不断与子节点比较），每次拿出顶端</td>
-</tr>
-<tr>
-<td>Quick</td>
-<td>nlogn; worst: n^2</td>
-<td>1</td>
-<td>分治；随机快排; 找第i小的数</td>
-<td>选一个数把数列分开，前半段大于它后半段小于它</td>
-</tr>
-<tr>
-<td>Counting</td>
-<td>n+r</td>
-<td>r</td>
-<td>用于可能出现的数有限、可知且较少时</td>
-<td>记下每个数的出现的次数</td>
-</tr>
-<tr>
-<td>Radix (基数排序)</td>
-<td>d(n+k);d表示位数；k表示几进制的数；采用counting: k=r</td>
-<td>rd+n</td>
-<td>用于大整数排序; <a href="https://www.jianshu.com/p/8340dfaea3af" target="_blank" rel="noopener">C++代码</a></td>
-<td>从低位到高位逐个排序，所用算法必须stable</td>
-</tr>
-</tbody></table>
-<p><a href="https://www.cnblogs.com/silence-x/p/10544072.html" target="_blank" rel="noopener">点击这里，最下方附有更详细的各种算法的时间复杂度表格</a></p>
-<h2 id="C-中的sort用到的算法"><a href="#C-中的sort用到的算法" class="headerlink" title="C++中的sort用到的算法"></a>C++中的sort用到的算法</h2><p><a href="https://blog.csdn.net/qq_35440678/article/details/80147601" target="_blank" rel="noopener">毫无疑问是用到了快速排序，但不仅仅只用了快速排序，还结合了插入排序和堆排序。</a>  </p>
-<p>数据量大时采用QuickSort快排算法，分段归并排序。一旦分段后的数据量小于某个门槛（16），为避免QuickSort快排的递归调用带来过大的额外负荷，就改用Insertion Sort插入排序。如果递归层次过深，还会改用HeapSort堆排序</p>
-
+        <p>Insertion, bubble, merge, heap, quick, counting, radix.</p>
+        
+          <a class="article-more-a" href="/2020/06/01/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93%EF%BC%88Sorting-Algorithms%EF%BC%89/#more">more >></a>
+        
       
 
       
@@ -534,10 +473,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">markdown</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
@@ -547,6 +482,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">markdown</a>
               </li>
             
             <div class="clearfix"></div>

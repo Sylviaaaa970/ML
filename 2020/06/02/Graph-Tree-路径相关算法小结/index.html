@@ -6,14 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: sorting | My world</title>
+  <title>Graph/Tree 路径相关算法小结 | My world</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="My world">
-<meta property="og:url" content="http://yoursite.com/tags/sorting/index.html">
+  <meta name="description" content="两点之间最短路径，MST，component DAG等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph&#x2F;Tree 路径相关算法小结">
+<meta property="og:url" content="http://yoursite.com/2020/06/02/Graph-Tree-%E8%B7%AF%E5%BE%84%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/index.html">
 <meta property="og:site_name" content="My world">
+<meta property="og:description" content="两点之间最短路径，MST，component DAG等">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-02T03:11:19.000Z">
+<meta property="article:modified_time" content="2020-06-02T15:41:26.642Z">
 <meta property="article:author" content="Sylvia Yang">
+<meta property="article:tag" content="bfs">
+<meta property="article:tag" content="dfs">
+<meta property="article:tag" content="最短路径">
+<meta property="article:tag" content="总结">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="My world" type="application/atom+xml">
@@ -141,68 +149,284 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Graph-Tree-路径相关算法小结" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/01/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93%EF%BC%88Sorting-Algorithms%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-06-01T02:45:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-01</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/01/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93%EF%BC%88Sorting-Algorithms%EF%BC%89/">搜索算法小结（Sorting Algorithms）</a>
+    <h1 class="article-title" itemprop="name">
+      Graph/Tree 路径相关算法小结
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        <!--显示阅读次数-->
+        
+        <br/>
+        <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+        <span class="icon-sort"></span>
+        <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+            阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+        </span>
+        </a>
+  
+        
+        <a href="/2020/06/02/Graph-Tree-%E8%B7%AF%E5%BE%84%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2020-06-02T03:11:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>两点之间最短路径，MST，component DAG等</p>
+<a id="more"></a>
+<h1 id="Graph-Tree-路径相关算法小结"><a href="#Graph-Tree-路径相关算法小结" class="headerlink" title="Graph/Tree 路径相关算法小结"></a>Graph/Tree 路径相关算法小结</h1><h2 id="两点之间最短距离及其路径"><a href="#两点之间最短距离及其路径" class="headerlink" title="两点之间最短距离及其路径"></a>两点之间最短距离及其路径</h2><p>有向/无向图均可：<br><strong>1.Bellman - Ford: 可用于检测是否存在负权环！</strong>    </p>
+<ul>
+<li><p>方法：给edges排序（任意顺序）；按照edges(u,v)的顺序计算所有点的d[v]=min(d[v],d[u]+w(u,v))；重复上一步V-1次，<em>此时如果存在d[v]&gt;d[u]+w(u,v)，那么存在负权环</em>，否则此时的d即为各点的最短距离。</p>
+</li>
+<li><p>时间复杂度：VE<br><strong>2.BFS：适用于无 weight。</strong>  </p>
+</li>
+<li><p>方法：依次释放每一层节点并记录其距离d；具体实施：依次从队列Q中取出最前面的节点，给其相邻节点记录d并将该点放入到Q中，依次循环直到 Q 中没有节点。</p>
+</li>
+<li><p>时间复杂度：V+E<br><strong>3.Dijkstra’s algorithm: 适用于非负 weight。</strong></p>
+</li>
+<li><p>方法：类似BFS，只不过Q从一开始就拥有全部节点，每次取出的不是最先放进去的节点，而是取d最小且其相邻节点没有被遍历过的节点；当节点u作为节点v的相邻节点被遍历到时 d=min(d,d[v]+w(v,u))。</p>
+</li>
+<li><p>时间复杂度：V * T[Extract-Min] + E * T[Decrease-Key]  </p>
+<table>
+<thead>
+<tr>
+<th>存放V的队列Q的表示方式</th>
+<th>T[Extract-Min]</th>
+<th>T[Decrease-Key]</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Array</td>
+<td>V</td>
+<td>1</td>
+<td>V^2</td>
+</tr>
+<tr>
+<td>Binary heap</td>
+<td>lgV</td>
+<td>lgV</td>
+<td>ElgV</td>
+</tr>
+<tr>
+<td>Fibonacci heap</td>
+<td>lgV</td>
+<td>1</td>
+<td>E+VlgV</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p><strong>4.Floyed-Warshall algorithm: 适用于 all paris，即求出图中所有节点对儿之间的最短距离</strong>  </p>
+<ul>
+<li><p>方法：建一个矩阵 D，其中 d[i][j] 表示点 i 到点 j 的最短距离；D(0) = (w[i][j]), D(1)中 d[i][j] (1)= min (d[i][j] (0), d[i][0] (0)+d[0][j] (0)) 【相当于只把节点1考虑进来计算最短路径】, 依次计算 D(2),D(3),…… D(V)即所需的最短路径矩阵。</p>
+</li>
+<li><p>时间复杂度：n^3</p>
+</li>
+<li><p>该方法还可用于在有向图中计算所有节点对儿之间是否可到达的矩阵：用0,1替代 weight 表示可到达/不可到达，计算中把取 min 改成 ||，把 + 改成 &amp;&amp;。  </p>
+<hr>
+<p>只适用于DAG(directed acyclic graphs):<br><strong>5.Topological ordering + one pass Bellman-Ford</strong>  </p>
+</li>
+<li><p>方法：dfs, 然后按finish time排序，最小的放最后；然后进行一次 Bellman-Ford。</p>
+</li>
+<li><p>时间复杂度：V+E  </p>
+</li>
+</ul>
+<h2 id="找到-Minimum-Spanning-Tree-MST，最小生成树"><a href="#找到-Minimum-Spanning-Tree-MST，最小生成树" class="headerlink" title="找到 Minimum Spanning Tree (MST，最小生成树)"></a>找到 Minimum Spanning Tree (MST，最小生成树)</h2><p>找到一个edges的子集使得所有节点都可互相达到，同时总路径和最短。（PS：此处假设所有 edge weight 不重复）。<br>1.Prim’s algorithm  </p>
+<ul>
+<li>方法：从某个节点开始对其所有相邻节点 v: weight[v] = min (weight[v], Edge(u,v))；然后选择此时整个图中 weight 最小的一个节点以及它与当前 tree 相连的边加到树中，并遍历其所有相邻节点；重复上一步直到所有的节点被加入到树中，所得即为MST。  </li>
+<li>时间复杂度：V * T[Extract-Min] + E * T[Decrease-Key]    </li>
+</ul>
+<p>2.Kruskal’s algorithm  </p>
+<ul>
+<li>方法：(Disjoint Set) 先将边按 weight 从小到大排序，然后依次取边，如果加入该边不会形成回路那就加入MST中，直到所有节点都包含进 MST 中。</li>
+<li>时间复杂度: ElgV  </li>
+</ul>
+<h2 id="找到有向图的component-DAG"><a href="#找到有向图的component-DAG" class="headerlink" title="找到有向图的component DAG"></a>找到有向图的component DAG</h2><p>找到一个有向图里所有的Strongly connected component（component内部的所有点可以互相到达）。<br>1.Kosaraju’s algorithm</p>
+<ul>
+<li>方法：dfs；把所有edge反向，然后按第一次dfs中finish time大的为先的顺序进行第二次dfs，所得结果即component DAG。</li>
+<li>时间复杂度：V+E    </li>
+</ul>
+<p>2.Tarjan’s algorithm  </p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>1.DFS：可用于求一个像素图中四联通域/八连通域的相关特征<br>2.DFS与图形有无环的判定：无论有向无向，DFS中有back edge &lt;=&gt; 有环；有向图中可能有forward edge, 无向图肯定没有。  </p>
+<ul>
+<li>时间复杂度：V+E   </li>
+</ul>
+<p>3.Topological ordering: 用于求执行顺序，用DAG(directed acyclic graphs) 表示各个部分的先后约束关系。比如生产流程、汇编、选课的先修课程等。  </p>
+<ul>
+<li>方法：dfs, 然后按finish time排序，最小的放最后。  </li>
+<li>时间复杂度：V+E    </li>
+</ul>
+<p>4.BFS/DFS都可用于判断一个无向图是否是connected(所有node都可以互相达到)，以及找到一个无向图中connected的部分。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>少侠好大方【抱拳<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/pay2.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/pay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">bfs</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">dfs</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">最短路径</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">sorting</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sylviaaaa970.github.io//Graph-Tree-%E8%B7%AF%E5%BE%84%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/06/01/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93%EF%BC%88Sorting-Algorithms%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">搜索算法小结（Sorting Algorithms）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -235,9 +459,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
